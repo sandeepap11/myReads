@@ -10,13 +10,6 @@ body, .app {
 
 /* main page */
 
-.list-authors {
-  padding: 0 0;
-  background: none;
-  text-align: left;
-
-}
-
 .list-books-title {
   padding: 10px 0;
   background: #2e7c31;
