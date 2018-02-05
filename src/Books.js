@@ -1,32 +1,9 @@
 import React, {Component} from 'react'
-import * as BooksAPI  from './BooksAPI'
+//import * as BooksAPI  from './BooksAPI'
 
 class Books extends Component{
 	
-	state = {
-		
-		allBooks : []
-	}
 
-componentDidMount(){
-    
-    BooksAPI.getAll().then(    
-        (books) => {            
-            this.setState({allBooks:books})			
-			}        
-    )
-}
-
-
-
-onSelect = (value, book) =>{	
-            
-            this.setState((state)=>(state.allBooks[state.allBooks.indexOf(book)].shelf=value								
-									
-			))		
-			
-	BooksAPI.update(book, value)	
-}
 
 
 
@@ -35,9 +12,9 @@ render(){
 					{name:"wantToRead", value:"Want to Read"}, 
 					{name:"read", value:"Read"}]
 	
-	const {allBooks} = this.state
+	const {allBooks, selectBook} = this.props
 	
-	if(this.state.allBooks.length === 0){
+	if(allBooks.length === 0){
      return false 
     }
 	
@@ -59,8 +36,8 @@ render(){
 							  <div className="book-top">
 								<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${books.imageLinks.smallThumbnail})` }}></div>
 								<div className="book-shelf-changer">
-								  <select onChange={(event) => this.onSelect(event.target.value, books)} value={category.name}>
-									<option value="none" disabled>Move to...</option>
+								  <select onChange={(event) => selectBook(event.target.value, books)} value={category.name}>
+									<option value="moveto" disabled>Move to...</option>
 									<option value="currentlyReading">Currently Reading</option>
 									<option value="wantToRead">Want to Read</option>
 									<option value="read">Read</option>
@@ -69,6 +46,7 @@ render(){
 								</div>
 							  </div>
 							  <div className="book-title">{books.title}</div>
+<div className="book-title">{books.id}</div>
 							 <div>							
 								{books.authors.map((author) =>(<div className='book-authors' key={author}>{author}</div>))}							
 							</div>
