@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import SearchResults from './SearchResults'
 import * as BooksAPI  from './BooksAPI'
 
 class Search extends Component{
@@ -8,76 +9,42 @@ class Search extends Component{
 		  }
 	
 	updateQuery = (query) => {
-
+		
+console.log('query changed')
             this.setState({query: query.trim()})
 		
-		if(query.length > 0){
+			if(query.length > 0){
 					 BooksAPI.search(query).then(    
         (searchResults) => {
+			
 			this.setState({searchResults})
 			}   	
 					 )  			
-				}
-		
-		else{
-			 (searchResults) => {
-			this.setState({searchResults:[]})
-			} 
-			
 		}
-
+		else
+			{
+				this.setState({searchResults:[]})
+				
+			}
+			
 		
-		(this.state.searchResults.length > 0) && (
-				
-				
-						this.updateShelf(this.state.searchResults, this.props.allBooks)	)
+
+
         }
 
 	
-	onSelect = (value, book) =>{
-		
-            
-            this.setState((state)=>(state.allBooks[state.allBooks.indexOf(book)].shelf=value								
-									
-			))		
-			
-	BooksAPI.update(book, value)	
-}
-
-		updateShelf = (searchResults, allBooks) =>{
-			
-			for(let searchResult of searchResults){
-			this.setState((state)=>(state.searchResults[state.searchResults.indexOf(searchResult)].shelf='none'	))
-				
-				
-				 			
-				for(let book of allBooks){
-					
-					if(book.id === searchResult.id){
-						console.log(book.id + "... " + searchResult.id + "..." + book.shelf)
-						this.setState((state)=>(state.searchResults[state.searchResults.indexOf(searchResult)].shelf = book.shelf))
-						break
-					}
-					
-				}
-			
-			}
-		}
-	
-
 	
 	render(){
 		
 		const {query, searchResults} = this.state
-		const {allBooks, selectBook} = this.props
+		const {allBooks} = this.props
+
 		
-		
-		
+	console.log('render for ' + query)
+		console.log('results for query render ' )
+		console.log(searchResults)
 
 		return (
-			
-			
-			
 		
 			<div className="search-books">
             <div className="search-books-bar">
@@ -89,47 +56,10 @@ class Search extends Component{
               </div>
             </div>
             <div className="search-books-results">
-			
-				{ (searchResults.length > 0) && (
-				    
-				
-				   <div className="bookshelf-books">
-                    <ol className="books-grid">		
+				{(query.length > 0) && (searchResults.length > 0) && (<SearchResults fromSearchResults={searchResults} allBooks={allBooks}/>)}
 		
-				 	{searchResults.map((searchResult) => (
-				 
-				 <li key={searchResult.id}>
-				
-				<div className="book">
-							  <div className="book-top">
-								<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${searchResult.imageLinks.smallThumbnail})` }}></div>
-								<div className="book-shelf-changer">
-								  <select onChange={(event) => selectBook(event.target.value, searchResult)} value={searchResult.shelf}>
-									<option value="moveto" disabled>Move to...</option>
-									<option value="currentlyReading">Currently Reading</option>
-									<option value="wantToRead">Want to Read</option>
-									<option value="read">Read</option>
-									<option value="none">None</option>
-								  </select>
-								</div>
-							  </div>
-							  <div className='book-title'>{searchResult.title}</div>
-								<div className='book-authors'>{searchResult.authors}</div>
-							
-							</div>
-				
-				
-				</li>
-))}
-
-		</ol>
-        </div>
-				)}
-				
-              <ol className="books-grid"></ol>
-            </div>
-          </div>
-		)
+			</div>
+          </div>)
 		
 	}
 }

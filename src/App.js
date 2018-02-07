@@ -17,7 +17,6 @@ class BooksApp extends React.Component {
 		
 		allBooks : []
 	
- 
 	  
   }
 
@@ -35,9 +34,7 @@ componentDidMount(){
 
 onSelect = (value, book) =>{	
             
-            this.setState((state)=>(state.allBooks[state.allBooks.indexOf(book)].shelf=value								
-									
-			))		
+            this.setState((state)=>(state.allBooks[state.allBooks.indexOf(book)].shelf=value ))		
 			
 	BooksAPI.update(book, value)	
 }
@@ -47,7 +44,7 @@ onSelect = (value, book) =>{
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-          <Search allBooks={this.state.allBooks} selectBook={this.onSelect}/>
+          <Search allBooks={this.state.allBooks}/>
         ) : (
           <div className="list-books">
             <div className="list-books-title">

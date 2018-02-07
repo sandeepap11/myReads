@@ -2,10 +2,6 @@ import React, {Component} from 'react'
 //import * as BooksAPI  from './BooksAPI'
 
 class Books extends Component{
-	
-
-
-
 
 render(){
 	const categories = [{name:"currentlyReading", value:"Currently Reading"}, 
@@ -17,6 +13,15 @@ render(){
 	if(allBooks.length === 0){
      return false 
     }
+	else{
+		
+		for(let book of allBooks){
+		
+				
+				if(!book.imageLinks){					
+					book.imageLinks = [{smallThumbnail: ''}]					
+				 			}}
+	}
 	
 	return(	
 		
@@ -46,9 +51,9 @@ render(){
 								</div>
 							  </div>
 							  <div className="book-title">{books.title}</div>
-<div className="book-title">{books.id}</div>
+							
 							 <div>							
-								{books.authors.map((author) =>(<div className='book-authors' key={author}>{author}</div>))}							
+								{(books.authors) && (books.authors.map((author) =>(<div className='book-authors' key={author}>{author}</div>)))}							
 							</div>
 							</div>
         				</li> 
