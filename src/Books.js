@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-//import * as BooksAPI  from './BooksAPI'
+import {Link} from 'react-router-dom'
 
 class Books extends Component{
 
@@ -26,6 +26,12 @@ render(){
 	return(	
 		
 	<div >
+		 <div className="list-books">
+            <div className="list-books-title">
+              <h1>MyReads</h1>
+            </div>
+            <div className="list-books-content">
+              <div>
 		{categories.map((category) =>(
 		
 		<div key={category.name}>
@@ -36,10 +42,10 @@ render(){
 		
 		{allBooks.filter((books) =>(books.shelf === category.name)).map((books) =>(
 	
-						<li key={books.title}>
+						<li key={books.id}>
 							<div className="book">
 							  <div className="book-top">
-								<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${books.imageLinks.smallThumbnail})` }}></div>
+								<div className="book-cover" style={{ width: 150, height: 210, backgroundSize:'cover', backgroundImage: `url(${books.imageLinks.smallThumbnail})` }}></div>
 								<div className="book-shelf-changer">
 								  <select onChange={(event) => selectBook(event.target.value, books)} value={category.name}>
 									<option value="moveto" disabled>Move to...</option>
@@ -69,7 +75,12 @@ render(){
 		))	}
 		
 		
-	
+	 </div>
+		</div>
+            <div className="open-search">
+              <Link to='/search'>Add a book</Link>
+            </div>
+          </div>
 
 
 </div>

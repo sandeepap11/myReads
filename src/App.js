@@ -1,4 +1,5 @@
 import React from 'react'
+import {Route} from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import Books from './Books'
 import './App.css'
@@ -43,25 +44,21 @@ onSelect = (value, book) =>{
 	  
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <Search allBooks={this.state.allBooks}/>
-        ) : (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
-              <div>
-              { <Books allBooks={this.state.allBooks} selectBook={this.onSelect}/>}
-            </div>
-		</div>
-            <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-            </div>
-          </div>
 
-        )}
-		
+          
+     
+         
+             
+           
+	<Route exact path='/' render={
+			
+			() => (	<Books allBooks={this.state.allBooks} selectBook={this.onSelect}/> 	)
+			
+			}/>
+     
+		<Route path='/search' render={
+			
+			({history}) => (<Search allBooks={this.state.allBooks} onSearch={()=>(history.push('/'))}/>)}/>
 		
       </div>
     )

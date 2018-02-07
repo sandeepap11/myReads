@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import SearchResults from './SearchResults'
+import {Link} from 'react-router-dom'
 import * as BooksAPI  from './BooksAPI'
 
 class Search extends Component{
@@ -10,10 +11,10 @@ class Search extends Component{
 	
 	updateQuery = (query) => {
 		
-console.log('query changed')
             this.setState({query: query.trim()})
 		
 			if(query.length > 0){
+				this.setState({searched: true})
 					 BooksAPI.search(query).then(    
         (searchResults) => {
 			
@@ -22,33 +23,26 @@ console.log('query changed')
 					 )  			
 		}
 		else
-			{
+			{	this.setState({searched: false})
 				this.setState({searchResults:[]})
 				
 			}
 			
-		
-
-
         }
 
-	
+
 	
 	render(){
 		
 		const {query, searchResults} = this.state
 		const {allBooks} = this.props
 
-		
-	console.log('render for ' + query)
-		console.log('results for query render ' )
-		console.log(searchResults)
 
 		return (
 		
 			<div className="search-books">
             <div className="search-books-bar">
-              <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
+              <Link className="close-search" to='/'>Close</Link>
               <div className="search-books-input-wrapper">
                
                 <input type="text" onChange={(event) => this.updateQuery(event.target.value)} placeholder="Search by title or author"/>
@@ -56,7 +50,8 @@ console.log('query changed')
               </div>
             </div>
             <div className="search-books-results">
-				{(query.length > 0) && (searchResults.length > 0) && (<SearchResults fromSearchResults={searchResults} allBooks={allBooks}/>)}
+				{ (query.length > 0) && (searchResults.length === undefined) && (<div>No Search Results Found</div>)}
+				{(query.length > 0) && (searchResults.length > 0) && (<SearchResults fromSearchResults={searchResults} allBooks={allBooks} />)}
 		
 			</div>
           </div>)

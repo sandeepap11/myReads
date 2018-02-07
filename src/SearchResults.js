@@ -18,14 +18,11 @@ updateOnProps = (properties) => {
             this.setState({searchResults:fromSearchResults})			
 			 
 
-	for(let searchResult of fromSearchResults){
+
+		for(let searchResult of fromSearchResults){
 			
 			this.setState((state)=>(state.searchResults[state.searchResults.indexOf(searchResult)].shelf='none'))
 			
-				if(!searchResult.imageLinks){	
-					this.setState((state)=>(state.searchResults[state.searchResults.indexOf(searchResult)].imageLinks=[{smallThumbnail: ''}]))
-										
-				 			}
 				for(let book of allBooks){
 					
 					if(book.id === searchResult.id){
@@ -37,16 +34,15 @@ updateOnProps = (properties) => {
 }
 			}
 
-componentWillReceiveProps(nextProps){
-	this.updateOnProps(nextProps)
-			}
-
 componentDidMount(){
 	this.updateOnProps(this.props)
 			}
 
-	
-	
+componentWillReceiveProps(nextProps){
+	this.updateOnProps(nextProps)
+			}
+
+
 	selectBook = (value, book) =>{	
             
 		 
@@ -59,19 +55,19 @@ componentDidMount(){
 
 render(){
 	
-	console.log('rendering in results')
-	
 	const {searchResults} = this.state
+	let thumbNails = []
 	
-	if(this.props.fromSearchResults.length === 0){
-		console.log('zero')
+for(let searchResult of searchResults){
+	
+	if(!searchResult.imageLinks){
 		
-		return false
+		thumbNails[searchResults.indexOf(searchResult)] = ''
 	}
-	
-		
-	else {	
-					console.log('not zero')	
+	else{
+		thumbNails[searchResults.indexOf(searchResult)] = searchResult.imageLinks.smallThumbnail
+	}
+}
 	
 			 	
 
@@ -84,7 +80,7 @@ return(<div className="bookshelf-books">
 			
 				<div className="book">
 							  <div className="book-top">
-								<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${searchResult.imageLinks.smallThumbnail})` }}></div>
+								<div className="book-cover" style={{ width: 150, height: 210, backgroundSize:'cover', backgroundImage: `url(${thumbNails[searchResults.indexOf(searchResult)]})`}}></div>
 								<div className="book-shelf-changer">
 								  <select onChange={(event) => ( this.selectBook(event.target.value, searchResult))} value={searchResult.shelf}>
 									<option value="moveto" disabled>Move to...</option>
@@ -108,7 +104,7 @@ return(<div className="bookshelf-books">
 
 		</ol>
         </div>
-				)}}
+				)}
 }
 
 
