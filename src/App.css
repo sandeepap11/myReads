@@ -128,10 +128,7 @@ body, .app {
 .book {
   width: 140px;
 }
-.book-cover:hover {
-  width: 140px;
-	border: solid 2px green;
-}
+
 
 
 .book-title,
@@ -178,6 +175,12 @@ body, .app {
 .book-cover {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   background: #eee;
+	border: solid 2px white;
+}
+
+.book-cover:hover {
+  width: 140px;
+	border: solid 2px green;
 }
 .book-cover-title {
   padding: 20px 10px 0;
