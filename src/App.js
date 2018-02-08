@@ -14,45 +14,65 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
 
-		
 		allBooks : []
-	  
+
   }
 
+  componentDidMount(){
 
-componentDidMount(){
-    
-    	BooksAPI.getAll().then(    
-				(books) => {            
-					this.setState({allBooks:books})			
-				}        
+    	BooksAPI.getAll().then(
+				(books) => {
+					this.setState({allBooks:books})
+				}
     	)
-	
+
 	}
 
 
 
-onSelect = (value, book) =>{	
-            
-            this.setState((state)=>(state.allBooks[state.allBooks.indexOf(book)].shelf=value ))		
-			
-			BooksAPI.update(book, value)	
+  onSelect = (value, book) =>{
+
+    let listed = false
+    let requiredBook = {}
+    for(let listedBook of this.state.allBooks){
+      if(book.id === listedBook.id){
+        listed = true
+        requiredBook = listedBook
+        break
+        }
+    }
+
+    if(listed){
+            this.setState((state)=>(state.allBooks[state.allBooks.indexOf(requiredBook)].shelf=value ))
+
+			}
+
+      else {
+
+        BooksAPI.get(book.id).then((book)=>{
+
+          this.setState((state)=>({allBooks: state.allBooks.concat(book)}))
+        })
+
+      }
+      BooksAPI.update(book, value)
+
 	}
 
-  render() {	  
-	  
+  render() {
+
     return (
 		  <div className="app">
 
 			<Route exact path='/' render={
 
-				() => (	<Books allBooks={this.state.allBooks} selectBook={this.onSelect} /> )
+				() => (	<Books allBooks={this.state.allBooks} onSelect={this.onSelect} /> )
 
 			}/>
 
 			<Route path='/search' render={
 
-				() => (<Search allBooks={this.state.allBooks} refresh={() => {history.push('/')}}/>)
+				() => (<Search allBooks={this.state.allBooks} onSelect={this.onSelect}/>)
 			}/>
 
 		  </div>

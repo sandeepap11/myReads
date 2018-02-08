@@ -9,7 +9,7 @@ class Books extends Component{
 						{name:"wantToRead", value:"Want to Read"},
 						{name:"read", value:"Read"}]
 
-		const {allBooks, selectBook} = this.props
+		const {allBooks, onSelect} = this.props
 
 		if(allBooks.length === 0){
 
@@ -45,7 +45,7 @@ class Books extends Component{
 												{
 													allBooks.filter((book) =>(book.shelf === category.name)).map((book) =>(
 
-														<ShowBook key={book.id} book={book} onSelect={selectBook} thumbNail={book.imageLinks.smallThumbnail}/>
+														<ShowBook key={book.id} book={book} onSelect={onSelect} thumbNail={book.imageLinks.smallThumbnail}/>
 
 														)
 													)

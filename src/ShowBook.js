@@ -1,17 +1,17 @@
 import React, {Component} from 'react'
 
 class ShowBook extends Component{
-	
-	
+
+
 	render(){
-		
+
 		const {book, onSelect, thumbNail} = this.props
-		
+
 		return(
-		
-		
+
+
 			<div>
-			
+
 				<li key={book.id}>
 					<div className="book">
 						<div className="book-top">
@@ -28,22 +28,22 @@ class ShowBook extends Component{
 										</div>
 										<div className="book-title">{book.title}</div>
 
-										<div>							
+										<div>
 												{(book.authors) && (book.authors.map((author) =>(<div className='book-authors' key={author}>{author}
 										</div>
 										)
 									)
 								)
-							}							
+							}
 						</div>
 					</div>
-				</li> 
-			
+				</li>
+
 			</div>
-		
+
 		)
-		
-		
+
+
 	}
 }
 

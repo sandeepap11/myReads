@@ -3,71 +3,71 @@ import * as BooksAPI from './BooksAPI'
 import ShowBook from './ShowBook'
 
 class SearchResults extends Component{
-	
+
 	state = {
-		
+
 		searchResults : []
 	}
-	
 
 
-updateOnProps = (properties) => {
-	const {fromSearchResults, allBooks} = properties
-	          
-    this.setState({searchResults:fromSearchResults})	
-	
-	for(let searchResult of fromSearchResults){
-			
-			this.setState((state)=>(state.searchResults[state.searchResults.indexOf(searchResult)].shelf='none'))
-			
-			for(let book of allBooks){
-					
-				if(book.id === searchResult.id){
-					this.setState((state)=>(state.searchResults[state.searchResults.indexOf(searchResult)].shelf=book.shelf))
-						
-					break
-				}					
+
+	updateOnProps = (fromSearchResults, allBooks) => {
+
+    this.setState({searchResults:fromSearchResults})
+
+		for(let searchResult of fromSearchResults){
+
+				this.setState((state)=>(state.searchResults[state.searchResults.indexOf(searchResult)].shelf='none'))
+
+				for(let book of allBooks){
+
+					if(book.id === searchResult.id){
+						this.setState((state)=>(state.searchResults[state.searchResults.indexOf(searchResult)].shelf=book.shelf))
+
+						break
+				}
 			}
 		}
 	}
 
-componentDidMount(){
-		this.updateOnProps(this.props)
+	componentDidMount(){
+		this.updateOnProps(this.props.fromSearchResults, this.props.allBooks)
 	}
 
-componentWillReceiveProps(nextProps){
-		this.updateOnProps(nextProps)
+	componentWillReceiveProps(nextProps){
+		this.updateOnProps(nextProps.fromSearchResults, nextProps.allBooks)
 	}
 
 
-	selectBook = (value, book) =>{	
-            
-		 
-		this.setState((state)=>(state.searchResults[state.searchResults.indexOf(book)].shelf=value ))	
-		BooksAPI.update(book, value)			
-	
+	selectBook = (value, book) =>{
+
+		this.setState((state)=>(state.searchResults[state.searchResults.indexOf(book)].shelf=value ))
+		BooksAPI.update(book, value)
+
+		this.props.onSelect(value, book)
+
 	}
 
-render(){
-	
+	render(){
+
 	const {searchResults} = this.state
 	let thumbNails = []
-	
+
 	for(let searchResult of searchResults){
-	
+
 		if(!searchResult.imageLinks){
-		
+
 				thumbNails[searchResults.indexOf(searchResult)] = ''
 			}
 		else{
 				thumbNails[searchResults.indexOf(searchResult)] = searchResult.imageLinks.smallThumbnail
 			}
 		}
-	
-			 	
+
+
 
 	return(<div className="bookshelf-books">
-				<ol className="books-grid">		
+				<ol className="books-grid">
 
 								{searchResults.map((searchResult) => (
 
